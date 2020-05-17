@@ -1,0 +1,17 @@
+#verify level trigger + block fd will block on send or receive operation
+>> verified, this is true
+
+#epoll fd as level trigger and set fd as none block, but recv on one fd two times still will still block?
+>> fix, set fd as none block not sucess. function implementation error. 
+
+#one bug: send 500 time in client continuesly, server will block on socket.recv. although data is received, but it
+didn't send out. use debug mode to check this issue, this issue will disappear, maybe this is related with 
+send speed too quickly at client side. 
+
+#client process cpu load very high, due to the event_out always happens, and always call messagesendcb. 
+>> fixed. need disable out event when send finished. 
+
+#use iperf to do performance test, 4k~100k bit/s is ok, but when reach 1m, server will exit, but didn't see any crash. 
+>> fixed. In previous code, UP and Err event will handle first which lead to close fd and connection, but stil try to 
+>> operate on the fd. So error happend, fd can't find.
+

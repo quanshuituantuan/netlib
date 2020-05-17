@@ -1,0 +1,30 @@
+package Communication;
+
+message Request
+{
+    enum Type 
+    {
+        REGISTER = 1;
+        LOGIN = 2;
+        READYTOSTART=3;
+        STARTGAME=4;
+        POKE=5;
+    }
+    required Type type=1;
+    optional string name=2;
+    optional string description=3;
+}
+
+message Response
+{
+    enum Type
+    {
+        ACK = 2;
+    }
+    required Type type=1;
+    required string status=2;
+    optional string name=3;
+}
+
+
+
