@@ -24,6 +24,7 @@ namespace EventLoop
 
         int getFD() const ;
 
+
         ~ConsoleInput();
 
     private:
